@@ -73,6 +73,16 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
       const localUrl = URL.createObjectURL(file);
       setVideoUrl(localUrl);
 
+      // Force video to play after setting the URL
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.load();
+          videoRef.current.play().catch(err => {
+            console.log("Autoplay prevented:", err);
+          });
+        }
+      }, 100);
+
       toast.success("Video uploaded successfully!");
     } catch (error) {
       console.error("Upload error:", error);
@@ -232,6 +242,14 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               playsInline
               crossOrigin="anonymous"
               onError={(e) => console.error("Video load error:", e)}
+              onLoadedData={() => {
+                // Ensure video plays when loaded
+                if (videoRef.current) {
+                  videoRef.current.play().catch(err => {
+                    console.log("Autoplay prevented:", err);
+                  });
+                }
+              }}
               src={videoUrl || undefined}
             >
               {!videoUrl && (
