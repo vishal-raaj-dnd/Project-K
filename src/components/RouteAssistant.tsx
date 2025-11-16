@@ -5,6 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send, Bot, User } from "lucide-react";
 import { toast } from "sonner";
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+// Initialize Mapbox
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || '';
 
 interface Message {
   role: "user" | "ai";
@@ -34,6 +39,95 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
   const [destination, setDestination] = useState("Destination");
   const [routes, setRoutes] = useState<any[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
+  const markers = useRef<Map<string, mapboxgl.Marker>>(new Map());
+  const [mapLoaded, setMapLoaded] = useState(false);
+
+  // Initialize Mapbox
+  useEffect(() => {
+    if (!mapContainer.current || map.current) return;
+
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: [77.1025, 28.7041], // Delhi, India
+      zoom: 11,
+    });
+
+    map.current.on('load', () => {
+      setMapLoaded(true);
+    });
+
+    // Add navigation controls
+    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+    return () => {
+      markers.current.forEach(marker => marker.remove());
+      markers.current.clear();
+      map.current?.remove();
+    };
+  }, []);
+
+  // Update markers when mapEvents change
+  useEffect(() => {
+    if (!map.current || !mapLoaded) return;
+
+    // Create a map of unique locations (by lat/lng rounded to 4 decimals)
+    const uniqueEvents = new Map<string, typeof mapEvents[0]>();
+    
+    mapEvents.forEach(event => {
+      const key = `${event.lat.toFixed(4)},${event.lng.toFixed(4)},${event.type}`;
+      if (!uniqueEvents.has(key)) {
+        uniqueEvents.set(key, event);
+      }
+    });
+
+    // Remove markers that are no longer in the events
+    const currentKeys = new Set(uniqueEvents.keys());
+    markers.current.forEach((marker, key) => {
+      if (!currentKeys.has(key)) {
+        marker.remove();
+        markers.current.delete(key);
+      }
+    });
+
+    // Add new markers
+    uniqueEvents.forEach((event, key) => {
+      if (!markers.current.has(key)) {
+        const el = document.createElement('div');
+        el.className = 'custom-marker';
+        el.style.backgroundColor = event.color;
+        el.style.width = '30px';
+        el.style.height = '30px';
+        el.style.borderRadius = '50%';
+        el.style.border = '3px solid #000';
+        el.style.cursor = 'pointer';
+        el.style.display = 'flex';
+        el.style.alignItems = 'center';
+        el.style.justifyContent = 'center';
+        el.style.fontWeight = 'bold';
+        el.style.fontSize = '16px';
+        el.textContent = event.type.charAt(0);
+
+        const popup = new mapboxgl.Popup({ offset: 25 })
+          .setHTML(`
+            <div style="font-family: sans-serif; padding: 8px;">
+              <strong>${event.type}</strong><br/>
+              Confidence: ${event.confidence}%<br/>
+              Time: ${new Date(event.timestamp).toLocaleTimeString()}
+            </div>
+          `);
+
+        const marker = new mapboxgl.Marker(el)
+          .setLngLat([event.lng, event.lat])
+          .setPopup(popup)
+          .addTo(map.current!);
+
+        markers.current.set(key, marker);
+      }
+    });
+  }, [mapEvents, mapLoaded]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -207,64 +301,19 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
       <Card className="lg:col-span-3 p-6 bg-[#0080FF] border-4 border-black shadow-[8px_8px_0px_#000000]">
         <h3 className="text-2xl font-black mb-4 text-white">🗺 Personalized Route Map</h3>
         
-        {/* Map with Real-Time Events */}
+        {/* Mapbox Map */}
         <div className="bg-white border-4 border-black h-96 mb-6 relative overflow-hidden">
-          {/* Map Background Grid */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-blue-100">
-            <svg className="w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="black" strokeWidth="0.5"/>
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-            </svg>
-          </div>
-
+          <div ref={mapContainer} className="w-full h-full" />
+          
           {/* Map Title */}
           <div className="absolute top-4 left-4 bg-[#FFE951] border-3 border-black px-3 py-1 font-black text-black z-10">
             📍 {destination}
           </div>
 
-          {/* Event Markers */}
-          <div className="absolute inset-0">
-            {mapEvents.map((event) => {
-              const x = ((event.lng - 77) / 2) * 100;
-              const y = ((event.lat - 28.5) / 2) * 100;
-              return (
-                <motion.div
-                  key={event.id}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0, opacity: 0 }}
-                  className="absolute w-12 h-12 flex items-center justify-center cursor-pointer group"
-                  style={{
-                    left: `${Math.max(0, Math.min(100, x))}%`,
-                    top: `${Math.max(0, Math.min(100, y))}%`,
-                    transform: "translate(-50%, -50%)",
-                  }}
-                  title={`${event.type} - ${event.confidence}% confidence`}
-                >
-                  <motion.div
-                    animate={{ scale: [1, 1.3, 1] }}
-                    transition={{ repeat: Infinity, duration: 1.5 }}
-                    className="w-10 h-10 border-4 border-black flex items-center justify-center text-lg font-black"
-                    style={{ backgroundColor: event.color }}
-                  >
-                    {event.type.charAt(0)}
-                  </motion.div>
-                  <div className="absolute bottom-full mb-2 bg-black text-white px-2 py-1 rounded text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity border-2 border-white">
-                    {event.type} ({event.confidence}%)
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-
           {/* No Events Message */}
           {mapEvents.length === 0 && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="text-center bg-white/90 p-4 border-3 border-black">
                 <div className="text-6xl mb-4">🗺️</div>
                 <div className="font-black text-2xl text-black mb-2">{destination}</div>
                 <div className="font-bold text-black">Waiting for real-time events...</div>
