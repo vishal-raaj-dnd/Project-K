@@ -234,6 +234,65 @@ export default function Landing() {
           </div>
         </section>
 
+        {/* Video Player Section */}
+        <section className="bg-white border-t-4 border-black py-20">
+          <div className="max-w-7xl mx-auto px-4">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-5xl font-black text-black mb-12 text-center"
+            >
+              See It In Action
+            </motion.h2>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="bg-black border-4 border-black p-8 shadow-[12px_12px_0px_#000000]"
+            >
+              <video
+                className="w-full h-auto border-4 border-[#FFE951]"
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+                crossOrigin="anonymous"
+              >
+                <source 
+                  src="https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1" 
+                  type="video/mp4" 
+                />
+                Your browser does not support the video tag.
+              </video>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-center mt-8"
+            >
+              <p className="text-xl font-bold text-black/80 mb-6">
+                Watch how Project K detects accidents, congestion, potholes, and flooding in real-time.
+              </p>
+              <a
+                href="https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1"
+                download
+                className="inline-block"
+              >
+                <Button
+                  className="bg-[#FF0080] text-white border-4 border-black hover:bg-[#FF006E] font-black py-6 px-8 text-lg shadow-[6px_6px_0px_#000000] cursor-pointer"
+                >
+                  📥 Download Sample Video
+                </Button>
+              </a>
+            </motion.div>
+          </div>
+        </section>
+
         {/* Footer */}
         <footer className="bg-black border-t-4 border-white py-8">
           <div className="max-w-7xl mx-auto px-4 text-center">
