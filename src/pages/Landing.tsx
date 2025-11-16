@@ -4,6 +4,95 @@ import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { ArrowRight, Heart, Zap, TrendingDown, DollarSign } from "lucide-react";
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
+
+function ThreeDHero() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    // Scene setup
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0.1);
+    containerRef.current.appendChild(renderer.domElement);
+
+    camera.position.z = 5;
+
+    // Create animated geometric shapes
+    const geometry1 = new THREE.IcosahedronGeometry(1.5, 4);
+    const material1 = new THREE.MeshPhongMaterial({ color: 0xFF0080, wireframe: false });
+    const mesh1 = new THREE.Mesh(geometry1, material1);
+    mesh1.position.set(-3, 1, 0);
+    scene.add(mesh1);
+
+    const geometry2 = new THREE.OctahedronGeometry(1.2, 2);
+    const material2 = new THREE.MeshPhongMaterial({ color: 0x00FF80, wireframe: false });
+    const mesh2 = new THREE.Mesh(geometry2, material2);
+    mesh2.position.set(3, -1, 0);
+    scene.add(mesh2);
+
+    const geometry3 = new THREE.TorusGeometry(2, 0.5, 16, 100);
+    const material3 = new THREE.MeshPhongMaterial({ color: 0x0080FF, wireframe: false });
+    const mesh3 = new THREE.Mesh(geometry3, material3);
+    mesh3.position.set(0, 0, -2);
+    scene.add(mesh3);
+
+    // Lighting
+    const light1 = new THREE.PointLight(0xFF0080, 1, 100);
+    light1.position.set(5, 5, 5);
+    scene.add(light1);
+
+    const light2 = new THREE.PointLight(0x00FF80, 1, 100);
+    light2.position.set(-5, -5, 5);
+    scene.add(light2);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+
+    // Animation loop
+    let animationId: number;
+    const animate = () => {
+      animationId = requestAnimationFrame(animate);
+
+      mesh1.rotation.x += 0.005;
+      mesh1.rotation.y += 0.008;
+      mesh1.position.y += Math.sin(Date.now() * 0.001) * 0.01;
+
+      mesh2.rotation.x -= 0.006;
+      mesh2.rotation.z += 0.007;
+      mesh2.position.y += Math.cos(Date.now() * 0.001) * 0.01;
+
+      mesh3.rotation.z += 0.003;
+      mesh3.rotation.x += 0.002;
+
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    // Handle resize
+    const handleResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationId);
+      containerRef.current?.removeChild(renderer.domElement);
+    };
+  }, []);
+
+  return <div ref={containerRef} className="absolute inset-0 w-full h-full" />;
+}
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -32,13 +121,9 @@ export default function Landing() {
         </div>
       </nav>
 
-      {/* Hero Section with 3D */}
+      {/* Hero Section with Custom 3D */}
       <section className="relative h-screen overflow-hidden border-b-4 border-black">
-        <iframe
-          src="https://prod.spline.design/GXOyqZdSxxoCriBA/scene.splinecode"
-          className="absolute inset-0 w-full h-full"
-          frameBorder="0"
-        />
+        <ThreeDHero />
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
