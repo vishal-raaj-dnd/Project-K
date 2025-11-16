@@ -218,15 +218,17 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
                   <Upload className="w-4 h-4 mr-2" />
                   Upload Your Video
                 </Button>
-                <Button
-                  onClick={() => {
-                    window.open('https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1', '_blank');
-                    toast.success("Download link opened! Upload the file to analyze.");
-                  }}
-                  className="bg-[#0080FF] text-white border-4 border-black hover:bg-blue-600 font-black shadow-[4px_4px_0px_#000000] cursor-pointer"
+                <a
+                  href="https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1"
+                  download
+                  className="inline-block"
                 >
-                  📥 Download Sample
-                </Button>
+                  <Button
+                    className="bg-[#0080FF] text-white border-4 border-black hover:bg-blue-600 font-black shadow-[4px_4px_0px_#000000] cursor-pointer"
+                  >
+                    📥 Download Sample
+                  </Button>
+                </a>
               </div>
             </div>
           </div>
