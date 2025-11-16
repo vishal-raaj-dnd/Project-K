@@ -40,7 +40,7 @@ export default function Landing() {
       {/* Content */}
       <div className="relative z-10">
         {/* Navbar */}
-        <nav className="border-b-4 border-[#FF0000] bg-black/90 backdrop-blur-sm shadow-[0_8px_0px_#FF0000]">
+        <nav className="border-b-2 border-[#FF0000]/30 bg-black/40 backdrop-blur-xl shadow-lg">
           <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -60,7 +60,7 @@ export default function Landing() {
             >
               <Button
                 onClick={() => handleNavigation(isAuthenticated ? "/dashboard" : "/auth")}
-                className="bg-[#FF0000] text-white border-3 border-[#FF0000] hover:bg-[#CC0000] font-black shadow-[4px_4px_0px_#FF0000] cursor-pointer"
+                className="bg-[#FF0000]/80 text-white border-2 border-[#FF0000]/50 hover:bg-[#CC0000] font-black backdrop-blur-md shadow-lg cursor-pointer"
               >
                 {isAuthenticated ? "Dashboard" : "Get Started"}
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -102,19 +102,19 @@ export default function Landing() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="grid grid-cols-2 gap-4 mb-8"
               >
-                <div className="bg-[#CC0000] border-4 border-[#FF0000] p-4 shadow-[4px_4px_0px_#FF0000]">
+                <div className="bg-[#FF0000]/20 border-2 border-[#FF0000]/40 p-4 backdrop-blur-md rounded-lg shadow-lg">
                   <div className="font-black text-3xl text-white">1.7L+</div>
                   <div className="font-bold text-sm text-white/70">Lives Lost Annually</div>
                 </div>
-                <div className="bg-[#990000] border-4 border-[#FF0000] p-4 shadow-[4px_4px_0px_#FF0000]">
+                <div className="bg-[#FF0000]/15 border-2 border-[#FF0000]/30 p-4 backdrop-blur-md rounded-lg shadow-lg">
                   <div className="font-black text-3xl text-white">2 sec</div>
                   <div className="font-bold text-sm text-white/70">Detection Time</div>
                 </div>
-                <div className="bg-[#FF3333] border-4 border-[#FF0000] p-4 shadow-[4px_4px_0px_#FF0000]">
+                <div className="bg-[#FF0000]/25 border-2 border-[#FF0000]/50 p-4 backdrop-blur-md rounded-lg shadow-lg">
                   <div className="font-black text-3xl text-white">13L+</div>
                   <div className="font-bold text-sm text-white/70">Cameras Connected</div>
                 </div>
-                <div className="bg-[#660000] border-4 border-[#FF0000] p-4 shadow-[4px_4px_0px_#FF0000]">
+                <div className="bg-[#FF0000]/10 border-2 border-[#FF0000]/25 p-4 backdrop-blur-md rounded-lg shadow-lg">
                   <div className="font-black text-3xl text-white">90%</div>
                   <div className="font-bold text-sm text-white/70">Cost Reduction</div>
                 </div>
@@ -168,7 +168,7 @@ export default function Landing() {
         </section>
 
         {/* Features Section */}
-        <section className="bg-black border-t-4 border-[#FF0000] py-20">
+        <section className="bg-black/40 border-t-2 border-[#FF0000]/30 py-20 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-4">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -187,7 +187,7 @@ export default function Landing() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 * idx }}
-                    className="bg-[#CC0000] border-4 border-[#FF0000] p-6 shadow-[6px_6px_0px_#FF0000]"
+                    className="bg-[#FF0000]/20 border-2 border-[#FF0000]/40 p-6 backdrop-blur-md rounded-lg shadow-lg hover:bg-[#FF0000]/30 transition-all"
                   >
                     <Icon className="w-12 h-12 text-white mb-4" />
                     <h3 className="font-black text-lg text-white mb-2">{feature.label}</h3>
@@ -200,7 +200,7 @@ export default function Landing() {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-gradient-to-r from-[#CC0000] to-[#990000] border-t-4 border-[#FF0000] py-20">
+        <section className="bg-gradient-to-r from-[#FF0000]/30 to-[#CC0000]/20 border-t-2 border-[#FF0000]/30 py-20 backdrop-blur-lg">
           <div className="max-w-4xl mx-auto px-4 text-center">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -225,7 +225,7 @@ export default function Landing() {
             >
               <Button
                 onClick={() => handleNavigation(isAuthenticated ? "/dashboard" : "/auth")}
-                className="bg-[#FF0000] text-white border-4 border-[#FF0000] hover:bg-[#CC0000] font-black py-8 px-12 text-lg shadow-[6px_6px_0px_#FF0000] cursor-pointer"
+                className="bg-[#FF0000]/80 text-white border-2 border-[#FF0000]/50 hover:bg-[#CC0000] font-black py-8 px-12 text-lg backdrop-blur-md shadow-lg cursor-pointer"
               >
                 Get Started Now
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -235,7 +235,7 @@ export default function Landing() {
         </section>
 
         {/* Video Player Section */}
-        <section className="bg-black border-t-4 border-[#FF0000] py-20">
+        <section className="bg-black/40 border-t-2 border-[#FF0000]/30 py-20 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-4">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -250,10 +250,10 @@ export default function Landing() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-[#1a1a1a] border-4 border-[#FF0000] p-8 shadow-[12px_12px_0px_#FF0000]"
+              className="bg-black/40 border-2 border-[#FF0000]/40 p-8 backdrop-blur-lg rounded-2xl shadow-2xl"
             >
               <video
-                className="w-full h-auto border-4 border-[#CC0000]"
+                className="w-full h-auto border-2 border-[#FF0000]/50 rounded-lg"
                 controls
                 autoPlay
                 loop
@@ -284,7 +284,7 @@ export default function Landing() {
                 className="inline-block"
               >
                 <Button
-                  className="bg-[#FF0000] text-white border-4 border-[#FF0000] hover:bg-[#CC0000] font-black py-6 px-8 text-lg shadow-[6px_6px_0px_#FF0000] cursor-pointer"
+                  className="bg-[#FF0000]/80 text-white border-2 border-[#FF0000]/50 hover:bg-[#CC0000] font-black py-6 px-8 text-lg backdrop-blur-md shadow-lg cursor-pointer"
                 >
                   📥 Download Sample Video
                 </Button>
@@ -294,7 +294,7 @@ export default function Landing() {
         </section>
 
         {/* Footer */}
-        <footer className="bg-black border-t-4 border-[#FF0000] py-8">
+        <footer className="bg-black/40 border-t-2 border-[#FF0000]/30 py-8 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-4 text-center">
             <p className="font-bold text-white/70">© 2024 Project K. Powered by AI Traffic Intelligence.</p>
           </div>
