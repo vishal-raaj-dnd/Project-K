@@ -210,13 +210,27 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
                 onChange={handleFileUpload}
                 className="hidden"
               />
-              <Button
-                onClick={() => fileInputRef.current?.click()}
-                className="bg-[#00FF80] text-black border-4 border-black hover:bg-green-400 font-black shadow-[4px_4px_0px_#000000] cursor-pointer"
-              >
-                <Upload className="w-4 h-4 mr-2" />
-                Upload Your Video
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="bg-[#00FF80] text-black border-4 border-black hover:bg-green-400 font-black shadow-[4px_4px_0px_#000000] cursor-pointer"
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload Your Video
+                </Button>
+                <Button
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = 'https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1';
+                    link.download = 'sample-video.mp4';
+                    link.click();
+                    toast.success("Download started! Upload the file to analyze.");
+                  }}
+                  className="bg-[#0080FF] text-white border-4 border-black hover:bg-blue-600 font-black shadow-[4px_4px_0px_#000000] cursor-pointer"
+                >
+                  📥 Download Sample
+                </Button>
+              </div>
             </div>
           </div>
           <div className="relative bg-black border-4 border-black rounded-none overflow-hidden">
@@ -240,6 +254,7 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
             >
               {!videoUrl && (
                 <>
+                  <source src="https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1" type="video/mp4" />
                   <source src="https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4" />
                   <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
                   <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
