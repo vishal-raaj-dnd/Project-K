@@ -32,12 +32,19 @@ const schema = defineSchema(
       role: v.optional(roleValidator), // role of the user. do not remove
     }).index("email", ["email"]), // index for the email. do not remove or modify
 
-    // add other tables here
+    detections: defineTable({
+      timestamp: v.string(),
+      detectionType: v.string(),
+      confidence: v.number(),
+      location: v.string(),
+    }),
 
-    // tableName: defineTable({
-    //   ...
-    //   // table fields
-    // }).index("by_field", ["field"])
+    routes: defineTable({
+      userId: v.optional(v.id("users")),
+      destination: v.string(),
+      routes: v.array(v.any()),
+      selectedRoute: v.optional(v.number()),
+    }),
   },
   {
     schemaValidation: false,
