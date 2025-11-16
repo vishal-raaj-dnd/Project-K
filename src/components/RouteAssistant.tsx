@@ -240,10 +240,10 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 h-full">
       {/* Chatbot */}
-      <Card className="lg:col-span-2 p-6 bg-[#FFE951] border-4 border-black shadow-[8px_8px_0px_#000000] flex flex-col">
-        <h3 className="text-2xl font-black mb-4 text-black">💬 AI Routing Assistant</h3>
+      <Card className="lg:col-span-2 p-6 bg-white/40 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl flex flex-col">
+        <h3 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">💬 AI Routing Assistant</h3>
         
-        <div className="flex-1 overflow-y-auto space-y-4 mb-4 bg-white border-4 border-black p-4">
+        <div className="flex-1 overflow-y-auto space-y-4 mb-4 bg-white/50 backdrop-blur border border-white/30 p-4 rounded-2xl">
           {messages.map((msg, idx) => (
             <motion.div
               key={idx}
@@ -257,8 +257,8 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
                 </div>
               )}
               <div
-                className={`max-w-[70%] p-3 border-3 border-black font-bold shadow-[4px_4px_0px_#000000] ${
-                  msg.role === "user" ? "bg-[#FF0080] text-white" : "bg-white text-black"
+                className={`max-w-[70%] p-3 rounded-2xl font-semibold border border-white/30 backdrop-blur ${
+                  msg.role === "user" ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg" : "bg-white/60 text-gray-800"
                 }`}
               >
                 {msg.content}
@@ -272,10 +272,10 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
           ))}
           {isTyping && (
             <div className="flex gap-3">
-              <div className="w-8 h-8 bg-[#0080FF] border-3 border-black flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 border-0 flex items-center justify-center rounded-full">
                 <Bot className="w-5 h-5 text-white" />
               </div>
-              <div className="bg-white border-3 border-black p-3 font-bold">
+              <div className="bg-white/60 backdrop-blur border border-white/30 p-3 font-semibold rounded-2xl text-gray-800">
                 AI is thinking...
               </div>
             </div>
@@ -289,11 +289,11 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleSend()}
             placeholder="Where do you want to go?"
-            className="flex-1 border-4 border-black font-bold bg-white focus:ring-0 focus:border-black"
+            className="flex-1 border border-white/30 font-semibold bg-white/60 backdrop-blur focus:ring-0 focus:border-white/50 rounded-full text-gray-800 placeholder-gray-500"
           />
           <Button
             onClick={handleSend}
-            className="bg-[#0080FF] text-white border-4 border-black hover:bg-blue-600 font-black shadow-[4px_4px_0px_#000000] hover:shadow-[2px_2px_0px_#000000]"
+            className="bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0 hover:from-purple-600 hover:to-blue-600 font-semibold rounded-full shadow-lg"
           >
             <Send className="w-5 h-5" />
           </Button>
@@ -301,25 +301,25 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
       </Card>
 
       {/* Map & Routes */}
-      <Card className="lg:col-span-3 p-6 bg-[#0080FF] border-4 border-black shadow-[8px_8px_0px_#000000]">
-        <h3 className="text-2xl font-black mb-4 text-white">🗺 Personalized Route Map</h3>
+      <Card className="lg:col-span-3 p-6 bg-white/40 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl">
+        <h3 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">🗺 Personalized Route Map</h3>
         
         {/* Leaflet Map */}
-        <div className="bg-white border-4 border-black h-96 mb-6 relative overflow-hidden">
+        <div className="bg-white/60 backdrop-blur border border-white/30 h-96 mb-6 relative overflow-hidden rounded-2xl">
           <div ref={mapContainer} className="w-full h-full" />
           
           {/* Map Title */}
-          <div className="absolute top-4 left-4 bg-[#FFE951] border-3 border-black px-3 py-1 font-black text-black z-10">
+          <div className="absolute top-4 left-4 bg-gradient-to-r from-yellow-100 to-amber-100 border border-white/50 px-3 py-1 font-semibold text-gray-800 z-10 rounded-full shadow-lg backdrop-blur">
             📍 {destination}
           </div>
 
           {/* No Events Message */}
           {mapEvents.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="text-center bg-white/90 p-4 border-3 border-black">
+              <div className="text-center bg-white/80 backdrop-blur p-4 border border-white/50 rounded-2xl">
                 <div className="text-6xl mb-4">🗺️</div>
-                <div className="font-black text-2xl text-black mb-2">{destination}</div>
-                <div className="font-bold text-black">Waiting for real-time events...</div>
+                <div className="font-bold text-2xl text-gray-800 mb-2">{destination}</div>
+                <div className="font-semibold text-gray-700">Waiting for real-time events...</div>
               </div>
             </div>
           )}
@@ -329,7 +329,7 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
-              className="absolute bottom-4 right-4 bg-[#FF0080] border-4 border-black p-3 font-black text-white z-20 shadow-[4px_4px_0px_#000000]"
+              className="absolute bottom-4 right-4 bg-gradient-to-r from-red-500 to-pink-500 border-0 p-3 font-bold text-white z-20 shadow-lg rounded-full"
             >
               🚨 ACCIDENT DETECTED
             </motion.div>
@@ -339,48 +339,48 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
         {/* Route Comparison */}
         {routes.length > 0 && (
           <div className="overflow-x-auto">
-            <table className="w-full border-4 border-black bg-white">
+            <table className="w-full border border-white/30 bg-white/50 backdrop-blur rounded-2xl overflow-hidden">
               <thead>
-                <tr className="bg-[#FFE951] border-b-4 border-black">
-                  <th className="p-3 text-left font-black border-r-4 border-black">Metric</th>
+                <tr className="bg-gradient-to-r from-purple-200 to-blue-200 border-b border-white/30">
+                  <th className="p-3 text-left font-bold text-gray-800 border-r border-white/30">Metric</th>
                   {routes.map(route => (
-                    <th key={route.id} className="p-3 text-center font-black border-r-4 border-black last:border-r-0">
+                    <th key={route.id} className="p-3 text-center font-bold text-gray-800 border-r border-white/30 last:border-r-0">
                       {route.name}
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="font-bold">
-                <tr className="border-b-4 border-black">
-                  <td className="p-3 border-r-4 border-black">Time</td>
+              <tbody className="font-semibold text-gray-700">
+                <tr className="border-b border-white/30">
+                  <td className="p-3 border-r border-white/30">Time</td>
                   {routes.map(route => (
-                    <td key={route.id} className="p-3 text-center border-r-4 border-black last:border-r-0">{route.time}</td>
+                    <td key={route.id} className="p-3 text-center border-r border-white/30 last:border-r-0">{route.time}</td>
                   ))}
                 </tr>
-                <tr className="border-b-4 border-black">
-                  <td className="p-3 border-r-4 border-black">Distance</td>
+                <tr className="border-b border-white/30">
+                  <td className="p-3 border-r border-white/30">Distance</td>
                   {routes.map(route => (
-                    <td key={route.id} className="p-3 text-center border-r-4 border-black last:border-r-0">{route.distance}</td>
+                    <td key={route.id} className="p-3 text-center border-r border-white/30 last:border-r-0">{route.distance}</td>
                   ))}
                 </tr>
-                <tr className="border-b-4 border-black">
-                  <td className="p-3 border-r-4 border-black">Traffic</td>
+                <tr className="border-b border-white/30">
+                  <td className="p-3 border-r border-white/30">Traffic</td>
                   {routes.map(route => (
-                    <td key={route.id} className="p-3 text-center border-r-4 border-black last:border-r-0">{route.traffic}</td>
+                    <td key={route.id} className="p-3 text-center border-r border-white/30 last:border-r-0">{route.traffic}</td>
                   ))}
                 </tr>
-                <tr className="border-b-4 border-black">
-                  <td className="p-3 border-r-4 border-black">Accidents</td>
+                <tr className="border-b border-white/30">
+                  <td className="p-3 border-r border-white/30">Accidents</td>
                   {routes.map(route => (
-                    <td key={route.id} className="p-3 text-center border-r-4 border-black last:border-r-0">
+                    <td key={route.id} className="p-3 text-center border-r border-white/30 last:border-r-0">
                       {route.accidents > 0 ? `${route.accidents} ⚠` : "0 ✅"}
                     </td>
                   ))}
                 </tr>
                 <tr>
-                  <td className="p-3 border-r-4 border-black">Cost</td>
+                  <td className="p-3 border-r border-white/30">Cost</td>
                   {routes.map(route => (
-                    <td key={route.id} className="p-3 text-center border-r-4 border-black last:border-r-0">{route.cost}</td>
+                    <td key={route.id} className="p-3 text-center border-r border-white/30 last:border-r-0">{route.cost}</td>
                   ))}
                 </tr>
               </tbody>

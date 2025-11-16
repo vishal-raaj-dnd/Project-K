@@ -69,19 +69,19 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFE951]">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-blue-100">
       {/* Navbar */}
-      <nav className="bg-[#FF0080] border-b-4 border-black p-4 shadow-[0_8px_0px_#000000]">
+      <nav className="bg-white/40 backdrop-blur-xl border-b border-white/30 p-4 shadow-lg rounded-b-3xl">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <img src="/logo.svg" alt="Project K" className="w-12 h-12 cursor-pointer" onClick={() => navigate("/")} />
-            <h1 className="text-3xl font-black text-white">PROJECT K</h1>
+            <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">PROJECT K</h1>
           </div>
           <div className="flex items-center gap-4">
-            <span className="font-black text-white">{user?.email || "Guest"}</span>
+            <span className="font-semibold text-gray-700">{user?.email || "Guest"}</span>
             <Button
               onClick={handleSignOut}
-              className="bg-black text-white border-4 border-white hover:bg-gray-800 font-black shadow-[4px_4px_0px_#000000]"
+              className="bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0 hover:from-purple-600 hover:to-blue-600 font-semibold rounded-full shadow-lg"
             >
               <LogOut className="w-4 h-4 mr-2" />
               Logout
@@ -91,24 +91,24 @@ export default function Dashboard() {
       </nav>
 
       {/* Tabs */}
-      <div className="bg-[#0080FF] border-b-4 border-black p-4">
+      <div className="bg-white/30 backdrop-blur-lg border-b border-white/30 p-4 rounded-b-2xl">
         <div className="max-w-7xl mx-auto flex gap-4">
           <Button
             onClick={() => setActiveTab("detection")}
-            className={`font-black text-lg border-4 border-black shadow-[4px_4px_0px_#000000] ${
+            className={`font-semibold text-lg rounded-full transition-all ${
               activeTab === "detection"
-                ? "bg-[#00FF80] text-black"
-                : "bg-white text-black hover:bg-gray-200"
+                ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg"
+                : "bg-white/50 text-gray-700 hover:bg-white/70 border border-white/50"
             }`}
           >
             🎥 Live Detection
           </Button>
           <Button
             onClick={() => setActiveTab("routing")}
-            className={`font-black text-lg border-4 border-black shadow-[4px_4px_0px_#000000] ${
+            className={`font-semibold text-lg rounded-full transition-all ${
               activeTab === "routing"
-                ? "bg-[#00FF80] text-black"
-                : "bg-white text-black hover:bg-gray-200"
+                ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg"
+                : "bg-white/50 text-gray-700 hover:bg-white/70 border border-white/50"
             }`}
           >
             🗺 Route Assistant

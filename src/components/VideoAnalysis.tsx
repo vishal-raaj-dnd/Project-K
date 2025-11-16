@@ -199,9 +199,9 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Video Section */}
-        <Card className="lg:col-span-2 p-6 bg-[#FFE951] border-4 border-black shadow-[8px_8px_0px_#000000]">
+        <Card className="lg:col-span-2 p-6 bg-white/40 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-2xl font-black text-black">🎥 Live Traffic Analysis</h3>
+            <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">🎥 Live Traffic Analysis</h3>
             <div>
               <input
                 ref={fileInputRef}
@@ -213,7 +213,7 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               <div className="flex gap-2">
                 <Button
                   onClick={() => fileInputRef.current?.click()}
-                  className="bg-[#00FF80] text-black border-4 border-black hover:bg-green-400 font-black shadow-[4px_4px_0px_#000000] cursor-pointer"
+                  className="bg-gradient-to-r from-green-400 to-emerald-500 text-white border-0 hover:from-green-500 hover:to-emerald-600 font-semibold rounded-full shadow-lg cursor-pointer"
                 >
                   <Upload className="w-4 h-4 mr-2" />
                   Upload Your Video
@@ -224,7 +224,7 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
                   className="inline-block"
                 >
                   <Button
-                    className="bg-[#0080FF] text-white border-4 border-black hover:bg-blue-600 font-black shadow-[4px_4px_0px_#000000] cursor-pointer"
+                    className="bg-gradient-to-r from-blue-400 to-cyan-500 text-white border-0 hover:from-blue-500 hover:to-cyan-600 font-semibold rounded-full shadow-lg cursor-pointer"
                   >
                     📥 Download Sample
                   </Button>
@@ -232,7 +232,7 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               </div>
             </div>
           </div>
-          <div className="relative bg-black border-4 border-black rounded-none overflow-hidden">
+          <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 border border-white/20 rounded-2xl overflow-hidden shadow-xl">
             <video
               ref={videoRef}
               className="w-full h-auto"
@@ -257,33 +257,33 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               Your browser does not support the video tag.
             </video>
             <canvas ref={canvasRef} className="hidden" />
-            <div className="absolute top-4 right-4 bg-[#00FF80] border-3 border-black px-3 py-1 font-black text-black">
+            <div className="absolute top-4 right-4 bg-gradient-to-r from-green-400 to-emerald-500 border-0 px-3 py-1 font-semibold text-white rounded-full shadow-lg">
               FPS: 1
             </div>
-            <div className="absolute bottom-4 left-4 bg-[#FF0080] border-3 border-black px-3 py-1 font-black text-white">
+            <div className="absolute bottom-4 left-4 bg-gradient-to-r from-purple-500 to-pink-500 border-0 px-3 py-1 font-semibold text-white rounded-full shadow-lg">
               {isModelLoaded ? "✅ ANALYZING..." : "⏳ LOADING MODEL..."}
             </div>
           </div>
         </Card>
 
         {/* Detection Results */}
-        <Card className="p-6 bg-[#0080FF] border-4 border-black shadow-[8px_8px_0px_#000000]">
-          <h3 className="text-2xl font-black mb-4 text-white">📊 AI Detection Results</h3>
+        <Card className="p-6 bg-white/40 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl">
+          <h3 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">📊 AI Detection Results</h3>
           
           <div className="space-y-4">
-            <DetectionBar label="🚗 Traffic" value={detections.traffic} color="#00D4FF" />
-            <DetectionBar label="🚑 Ambulance" value={detections.ambulance} color="#FF006E" />
-            <DetectionBar label="🚨 Accident" value={detections.accident} color="#FFA500" />
-            <DetectionBar label="🌊 Flooded Routes" value={detections.flooded} color="#0099FF" />
-            <DetectionBar label="🕳 Pothole" value={detections.pothole} color="#A0522D" />
-            <DetectionBar label="✅ Normal Road" value={detections.normal} color="#00FF88" />
+            <DetectionBar label="🚗 Traffic" value={detections.traffic} color="from-cyan-400 to-blue-500" />
+            <DetectionBar label="🚑 Ambulance" value={detections.ambulance} color="from-pink-400 to-rose-500" />
+            <DetectionBar label="🚨 Accident" value={detections.accident} color="from-orange-400 to-red-500" />
+            <DetectionBar label="🌊 Flooded Routes" value={detections.flooded} color="from-blue-400 to-cyan-500" />
+            <DetectionBar label="🕳 Pothole" value={detections.pothole} color="from-amber-400 to-orange-500" />
+            <DetectionBar label="✅ Normal Road" value={detections.normal} color="from-green-400 to-emerald-500" />
           </div>
 
           <div className="mt-6 space-y-2 text-sm">
-            <div className="bg-white border-3 border-black p-2 font-bold text-black">
+            <div className="bg-white/50 backdrop-blur border border-white/30 p-2 font-semibold text-gray-700 rounded-lg">
               Model Status: {isModelLoaded ? "✅ ML Model Loaded" : "⏳ Loading..."}
             </div>
-            <div className="bg-white border-3 border-black p-2 font-bold text-black">
+            <div className="bg-white/50 backdrop-blur border border-white/30 p-2 font-semibold text-gray-700 rounded-lg">
               Inference Time: {inferenceTime}ms
             </div>
           </div>
@@ -291,8 +291,8 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
       </div>
 
       {/* Alerts Section */}
-      <Card className="p-6 bg-[#FF0080] border-4 border-black shadow-[8px_8px_0px_#000000]">
-        <h3 className="text-2xl font-black mb-4 text-white">📢 Real-Time Alerts & Control Center</h3>
+      <Card className="p-6 bg-white/40 backdrop-blur-xl border border-white/30 rounded-3xl shadow-xl">
+        <h3 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">📢 Real-Time Alerts & Control Center</h3>
         
         {alerts.length > 0 && (
           <div className="space-y-2 mb-4">
@@ -301,26 +301,26 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
                 key={idx}
                 initial={{ x: 100, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                className="bg-[#FFE951] border-4 border-black p-4 font-black text-black shadow-[4px_4px_0px_#000000]"
+                className="bg-gradient-to-r from-yellow-100 to-amber-100 border border-white/50 p-4 font-semibold text-gray-800 rounded-2xl shadow-lg backdrop-blur"
               >
                 {alert}
                 <div className="flex gap-2 mt-2">
                   {reviewedAlerts.has(idx) || deployedAlerts.has(idx) ? (
-                    <div className="bg-[#00FF80] text-black border-3 border-black px-4 py-2 font-black flex items-center justify-center">
+                    <div className="bg-gradient-to-r from-green-400 to-emerald-500 text-white border-0 px-4 py-2 font-semibold flex items-center justify-center rounded-full">
                       ✓
                     </div>
                   ) : (
                     <>
                       <Button 
                         onClick={() => handleManualReview(alert, idx)}
-                        className="bg-black text-white border-3 border-black hover:bg-gray-800 font-black cursor-pointer"
+                        className="bg-gradient-to-r from-gray-600 to-gray-700 text-white border-0 hover:from-gray-700 hover:to-gray-800 font-semibold rounded-full cursor-pointer"
                       >
                         Manual Review
                       </Button>
                       {(alert.includes("ACCIDENT") || alert.includes("AMBULANCE")) && (
                         <Button 
                           onClick={() => handleDeployAmbulance(alert, idx)}
-                          className="bg-[#00FF80] text-black border-3 border-black hover:bg-green-400 font-black cursor-pointer"
+                          className="bg-gradient-to-r from-green-400 to-emerald-500 text-white border-0 hover:from-green-500 hover:to-emerald-600 font-semibold rounded-full cursor-pointer"
                         >
                           Deploy Ambulance
                         </Button>
@@ -333,13 +333,13 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
           </div>
         )}
 
-        <div className="bg-black border-4 border-white p-4 max-h-48 overflow-y-auto">
-          <div className="space-y-1 font-mono text-sm text-[#00FF80]">
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 border border-white/20 p-4 max-h-48 overflow-y-auto rounded-2xl">
+          <div className="space-y-1 font-mono text-sm text-green-400">
             {alerts.length === 0 ? (
-              <div className="text-white">No alerts detected. System monitoring...</div>
+              <div className="text-gray-300">No alerts detected. System monitoring...</div>
             ) : (
               alerts.map((alert, idx) => (
-                <div key={idx} className="text-white">
+                <div key={idx} className="text-gray-200">
                   {new Date().toLocaleTimeString()} - {alert}
                 </div>
               ))
@@ -355,13 +355,12 @@ function DetectionBar({ label, value, color }: { label: string; value: number; c
   return (
     <div>
       <div className="flex justify-between mb-1">
-        <span className="font-black text-white text-sm">{label}</span>
-        <span className="font-black text-white text-sm">{value}%</span>
+        <span className="font-semibold text-gray-700 text-sm">{label}</span>
+        <span className="font-semibold text-gray-700 text-sm">{value}%</span>
       </div>
-      <div className="h-6 bg-white border-3 border-black relative overflow-hidden">
+      <div className={`h-6 bg-white/30 backdrop-blur border border-white/30 relative overflow-hidden rounded-full`}>
         <motion.div
-          className="h-full border-r-3 border-black"
-          style={{ backgroundColor: color }}
+          className={`h-full bg-gradient-to-r ${color} rounded-full`}
           initial={{ width: 0 }}
           animate={{ width: `${value}%` }}
           transition={{ duration: 0.5 }}
