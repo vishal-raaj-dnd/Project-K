@@ -220,11 +220,8 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
                 </Button>
                 <Button
                   onClick={() => {
-                    const link = document.createElement('a');
-                    link.href = 'https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1';
-                    link.download = 'sample-video.mp4';
-                    link.click();
-                    toast.success("Download started! Upload the file to analyze.");
+                    window.open('https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1', '_blank');
+                    toast.success("Download link opened! Upload the file to analyze.");
                   }}
                   className="bg-[#0080FF] text-white border-4 border-black hover:bg-blue-600 font-black shadow-[4px_4px_0px_#000000] cursor-pointer"
                 >
