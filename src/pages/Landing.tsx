@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { ArrowRight, Zap, Shield, Gauge, AlertCircle } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -14,6 +15,11 @@ export default function Landing() {
     { icon: Gauge, label: "Real-time", desc: "Live monitoring" },
     { icon: AlertCircle, label: "Smart Alerts", desc: "Instant notifications" },
   ];
+
+  const handleNavigation = (path: string) => {
+    toast.success("Navigating to " + (path === "/dashboard" ? "Dashboard" : "Get Started"));
+    navigate(path);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFE951] via-[#FF0080] to-[#0080FF] overflow-hidden">
@@ -40,7 +46,10 @@ export default function Landing() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center gap-3 cursor-pointer"
-              onClick={() => navigate("/")}
+              onClick={() => {
+                toast.info("Welcome to Project K!");
+                navigate("/");
+              }}
             >
               <img src="/logo.svg" alt="Project K" className="w-10 h-10" />
               <span className="font-black text-2xl text-black">PROJECT K</span>
@@ -50,8 +59,8 @@ export default function Landing() {
               animate={{ opacity: 1, x: 0 }}
             >
               <Button
-                onClick={() => navigate(isAuthenticated ? "/dashboard" : "/auth")}
-                className="bg-[#FF0080] text-white border-3 border-black hover:bg-[#FF006E] font-black shadow-[4px_4px_0px_#000000]"
+                onClick={() => handleNavigation(isAuthenticated ? "/dashboard" : "/auth")}
+                className="bg-[#FF0080] text-white border-3 border-black hover:bg-[#FF006E] font-black shadow-[4px_4px_0px_#000000] cursor-pointer"
               >
                 {isAuthenticated ? "Dashboard" : "Get Started"}
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -117,8 +126,8 @@ export default function Landing() {
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
                 <Button
-                  onClick={() => navigate(isAuthenticated ? "/dashboard" : "/auth")}
-                  className="w-full bg-black text-white border-4 border-black hover:bg-gray-800 font-black py-8 text-lg shadow-[6px_6px_0px_#000000]"
+                  onClick={() => handleNavigation(isAuthenticated ? "/dashboard" : "/auth")}
+                  className="w-full bg-black text-white border-4 border-black hover:bg-gray-800 font-black py-8 text-lg shadow-[6px_6px_0px_#000000] cursor-pointer"
                 >
                   {isAuthenticated ? "Go to Dashboard" : "Start Now"}
                   <ArrowRight className="w-5 h-5 ml-2" />
@@ -215,8 +224,8 @@ export default function Landing() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <Button
-                onClick={() => navigate(isAuthenticated ? "/dashboard" : "/auth")}
-                className="bg-white text-black border-4 border-black hover:bg-gray-100 font-black py-8 px-12 text-lg shadow-[6px_6px_0px_#000000]"
+                onClick={() => handleNavigation(isAuthenticated ? "/dashboard" : "/auth")}
+                className="bg-white text-black border-4 border-black hover:bg-gray-100 font-black py-8 px-12 text-lg shadow-[6px_6px_0px_#000000] cursor-pointer"
               >
                 Get Started Now
                 <ArrowRight className="w-5 h-5 ml-2" />
