@@ -37,6 +37,8 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
   });
   const [inferenceTime, setInferenceTime] = useState(0);
   const [alerts, setAlerts] = useState<string[]>([]);
+  const [reviewedAlerts, setReviewedAlerts] = useState<Set<number>>(new Set());
+  const [deployedAlerts, setDeployedAlerts] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     const loadModel = async () => {
@@ -177,7 +179,8 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
     }, 100);
   };
 
-  const handleManualReview = (alert: string) => {
+  const handleManualReview = (alert: string, index: number) => {
+    setReviewedAlerts(prev => new Set(prev).add(index));
     toast.info("Manual Review Initiated", {
       description: `Reviewing: ${alert}`,
       action: {
@@ -187,7 +190,8 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
     });
   };
 
-  const handleDeployAmbulance = (alert: string) => {
+  const handleDeployAmbulance = (alert: string, index: number) => {
+    setDeployedAlerts(prev => new Set(prev).add(index));
     toast.success("Emergency Response Dispatched", {
       description: "Ambulance has been notified and is en route to the location.",
       action: {
@@ -298,19 +302,31 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               >
                 {alert}
                 <div className="flex gap-2 mt-2">
-                  <Button 
-                    onClick={() => handleManualReview(alert)}
-                    className="bg-black text-white border-3 border-black hover:bg-gray-800 font-black cursor-pointer"
-                  >
-                    Manual Review
-                  </Button>
-                  {(alert.includes("ACCIDENT") || alert.includes("AMBULANCE")) && (
+                  {reviewedAlerts.has(idx) ? (
+                    <div className="bg-[#00FF80] text-black border-3 border-black px-4 py-2 font-black flex items-center gap-2">
+                      ✓ Reviewed
+                    </div>
+                  ) : (
                     <Button 
-                      onClick={() => handleDeployAmbulance(alert)}
-                      className="bg-[#00FF80] text-black border-3 border-black hover:bg-green-400 font-black cursor-pointer"
+                      onClick={() => handleManualReview(alert, idx)}
+                      className="bg-black text-white border-3 border-black hover:bg-gray-800 font-black cursor-pointer"
                     >
-                      Deploy Ambulance
+                      Manual Review
                     </Button>
+                  )}
+                  {(alert.includes("ACCIDENT") || alert.includes("AMBULANCE")) && (
+                    deployedAlerts.has(idx) ? (
+                      <div className="bg-[#00FF80] text-black border-3 border-black px-4 py-2 font-black flex items-center gap-2">
+                        ✓ Deployed
+                      </div>
+                    ) : (
+                      <Button 
+                        onClick={() => handleDeployAmbulance(alert, idx)}
+                        className="bg-[#00FF80] text-black border-3 border-black hover:bg-green-400 font-black cursor-pointer"
+                      >
+                        Deploy Ambulance
+                      </Button>
+                    )
                   )}
                 </div>
               </motion.div>
