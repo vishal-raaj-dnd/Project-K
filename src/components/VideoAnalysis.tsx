@@ -150,6 +150,26 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
     return () => clearInterval(interval);
   }, [model, onDetectionUpdate]);
 
+  const handleManualReview = (alert: string) => {
+    toast.info("Manual Review Initiated", {
+      description: `Reviewing: ${alert}`,
+      action: {
+        label: "View Details",
+        onClick: () => console.log("Viewing details for:", alert),
+      },
+    });
+  };
+
+  const handleDeployAmbulance = (alert: string) => {
+    toast.success("Emergency Response Dispatched", {
+      description: "Ambulance has been notified and is en route to the location.",
+      action: {
+        label: "Track",
+        onClick: () => console.log("Tracking ambulance for:", alert),
+      },
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -169,7 +189,6 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               crossOrigin="anonymous"
               onError={(e) => console.error("Video load error:", e)}
               onLoadedData={() => {
-                // Ensure video plays when loaded
                 if (videoRef.current) {
                   videoRef.current.play().catch(err => {
                     console.log("Autoplay prevented:", err);
@@ -231,14 +250,20 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               >
                 {alert}
                 <div className="flex gap-2 mt-2">
-                  <Button className="bg-black text-white border-3 border-black hover:bg-gray-800 font-black">
+                  <Button 
+                    onClick={() => handleManualReview(alert)}
+                    className="bg-black text-white border-3 border-black hover:bg-gray-800 font-black cursor-pointer"
+                  >
                     Manual Review
                   </Button>
-                  {alert.includes("ACCIDENT") || alert.includes("AMBULANCE") ? (
-                    <Button className="bg-[#00FF80] text-black border-3 border-black hover:bg-green-400 font-black">
+                  {(alert.includes("ACCIDENT") || alert.includes("AMBULANCE")) && (
+                    <Button 
+                      onClick={() => handleDeployAmbulance(alert)}
+                      className="bg-[#00FF80] text-black border-3 border-black hover:bg-green-400 font-black cursor-pointer"
+                    >
                       Deploy Ambulance
                     </Button>
-                  ) : null}
+                  )}
                 </div>
               </motion.div>
             ))}
