@@ -5,11 +5,16 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send, Bot, User } from "lucide-react";
 import { toast } from "sonner";
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
-// Initialize Mapbox
-mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || 'pk.eyJ1Ijoidmx5YWkiLCJhIjoiY20zNXB5ZGZzMDFvZDJxcHp4cjBxdGN6ZiJ9.8xQYvQZQxZYxQxQxQxQxQxQ';
+// Fix for default marker icons in Leaflet
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+});
 
 interface Message {
   role: "user" | "ai";
@@ -48,11 +53,9 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
-    const leaflet = require('leaflet');
-    
-    map.current = leaflet.map(mapContainer.current).setView([28.7041, 77.1025], 11);
+    map.current = L.map(mapContainer.current).setView([28.7041, 77.1025], 11);
 
-    leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19,
     }).addTo(map.current);
@@ -70,8 +73,6 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
   // Update markers when mapEvents change
   useEffect(() => {
     if (!map.current || !mapLoaded) return;
-
-    const leaflet = require('leaflet');
 
     // Create a map of unique locations (by lat/lng rounded to 4 decimals)
     const uniqueEvents = new Map<string, typeof mapEvents[0]>();
@@ -95,7 +96,7 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
     // Add new markers
     uniqueEvents.forEach((event, key) => {
       if (!markers.current.has(key)) {
-        const customIcon = leaflet.divIcon({
+        const customIcon = L.divIcon({
           className: 'custom-marker',
           html: `<div style="
             background-color: ${event.color};
@@ -122,7 +123,7 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
           </div>
         `;
 
-        const marker = leaflet.marker([event.lat, event.lng], { icon: customIcon })
+        const marker = L.marker([event.lat, event.lng], { icon: customIcon })
           .bindPopup(popupContent)
           .addTo(map.current!);
 
@@ -303,7 +304,7 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
       <Card className="lg:col-span-3 p-6 bg-[#0080FF] border-4 border-black shadow-[8px_8px_0px_#000000]">
         <h3 className="text-2xl font-black mb-4 text-white">🗺 Personalized Route Map</h3>
         
-        {/* Mapbox Map */}
+        {/* Leaflet Map */}
         <div className="bg-white border-4 border-black h-96 mb-6 relative overflow-hidden">
           <div ref={mapContainer} className="w-full h-full" />
           
