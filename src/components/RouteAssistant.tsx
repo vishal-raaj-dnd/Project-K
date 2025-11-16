@@ -9,7 +9,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Initialize Mapbox
-mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || '';
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || 'pk.eyJ1Ijoidmx5YWkiLCJhIjoiY20zNXB5ZGZzMDFvZDJxcHp4cjBxdGN6ZiJ9.8xQYvQZQxZYxQxQxQxQxQxQ';
 
 interface Message {
   role: "user" | "ai";
