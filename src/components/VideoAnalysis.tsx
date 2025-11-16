@@ -178,7 +178,6 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               }}
             >
               <source src="https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1" type="video/mp4" />
-              <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             <canvas ref={canvasRef} className="hidden" />
