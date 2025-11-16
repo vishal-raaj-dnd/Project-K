@@ -303,8 +303,8 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
                 {alert}
                 <div className="flex gap-2 mt-2">
                   {reviewedAlerts.has(idx) ? (
-                    <div className="bg-[#00FF80] text-black border-3 border-black px-4 py-2 font-black flex items-center gap-2">
-                      ✓ Reviewed
+                    <div className="bg-[#00FF80] text-black border-3 border-black px-4 py-2 font-black flex items-center justify-center">
+                      ✓
                     </div>
                   ) : (
                     <Button 
@@ -316,8 +316,8 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
                   )}
                   {(alert.includes("ACCIDENT") || alert.includes("AMBULANCE")) && (
                     deployedAlerts.has(idx) ? (
-                      <div className="bg-[#00FF80] text-black border-3 border-black px-4 py-2 font-black flex items-center gap-2">
-                        ✓ Deployed
+                      <div className="bg-[#00FF80] text-black border-3 border-black px-4 py-2 font-black flex items-center justify-center">
+                        ✓
                       </div>
                     ) : (
                       <Button 
