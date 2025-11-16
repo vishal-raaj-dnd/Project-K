@@ -15,7 +15,7 @@ interface DetectionResults {
 }
 
 interface VideoAnalysisProps {
-  onDetectionUpdate?: (results: DetectionResults) => void;
+  onDetectionUpdate?: (results: DetectionResults, markers?: any[]) => void;
 }
 
 export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps) {
@@ -110,7 +110,33 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
         });
 
         setDetections(newDetections);
-        onDetectionUpdate?.(newDetections);
+        
+        // Generate markers for map
+        const newMarkers: any[] = [];
+        const detectionTypes = [
+          { key: 'accident', type: 'Accident', color: '#FFA500', lat: 28.6139 + Math.random() * 0.1, lng: 77.2090 + Math.random() * 0.1 },
+          { key: 'ambulance', type: 'Ambulance', color: '#FF006E', lat: 28.6139 + Math.random() * 0.1, lng: 77.2090 + Math.random() * 0.1 },
+          { key: 'flooded', type: 'Flooding', color: '#0099FF', lat: 28.6139 + Math.random() * 0.1, lng: 77.2090 + Math.random() * 0.1 },
+          { key: 'pothole', type: 'Pothole', color: '#A0522D', lat: 28.6139 + Math.random() * 0.1, lng: 77.2090 + Math.random() * 0.1 },
+          { key: 'traffic', type: 'Traffic', color: '#00D4FF', lat: 28.6139 + Math.random() * 0.1, lng: 77.2090 + Math.random() * 0.1 },
+        ];
+
+        detectionTypes.forEach(detection => {
+          const confidence = newDetections[detection.key as keyof DetectionResults];
+          if (confidence > 50) {
+            newMarkers.push({
+              id: `${detection.key}-${Date.now()}`,
+              type: detection.type,
+              confidence,
+              lat: detection.lat,
+              lng: detection.lng,
+              timestamp: Date.now(),
+              color: detection.color,
+            });
+          }
+        });
+
+        onDetectionUpdate?.(newDetections, newMarkers);
 
         // Generate alerts
         const newAlerts: string[] = [];

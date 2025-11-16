@@ -15,6 +15,15 @@ export default function Dashboard() {
     accidentDetected: false,
     trafficLevel: "moderate" as "high" | "moderate" | "low",
   });
+  const [mapEvents, setMapEvents] = useState<Array<{
+    id: string;
+    type: string;
+    confidence: number;
+    lat: number;
+    lng: number;
+    timestamp: number;
+    color: string;
+  }>>([]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -26,6 +35,37 @@ export default function Dashboard() {
       accidentDetected: results.accident > 70,
       trafficLevel: results.traffic > 75 ? "high" : results.traffic > 40 ? "moderate" : "low",
     });
+
+    // Generate random coordinates for demo purposes
+    const detectionTypes = [
+      { key: "accident", threshold: 70, color: "#FF0080", label: "🚨 Accident" },
+      { key: "ambulance", threshold: 70, color: "#FF006E", label: "🚑 Ambulance" },
+      { key: "flooded", threshold: 60, color: "#0099FF", label: "🌊 Flooded" },
+      { key: "pothole", threshold: 60, color: "#A0522D", label: "🕳 Pothole" },
+      { key: "traffic", threshold: 75, color: "#00D4FF", label: "🚗 Traffic" },
+    ];
+
+    const newEvents: typeof mapEvents = [];
+    detectionTypes.forEach(({ key, threshold, color, label }) => {
+      if (results[key] > threshold) {
+        // Generate random coordinates within India bounds (demo)
+        const lat = 28.5 + Math.random() * 2;
+        const lng = 77 + Math.random() * 2;
+        newEvents.push({
+          id: `${key}-${Date.now()}`,
+          type: label,
+          confidence: results[key],
+          lat,
+          lng,
+          timestamp: Date.now(),
+          color,
+        });
+      }
+    });
+
+    if (newEvents.length > 0) {
+      setMapEvents(prev => [...newEvents, ...prev].slice(0, 20));
+    }
   };
 
   return (
@@ -90,6 +130,7 @@ export default function Dashboard() {
             <RouteAssistant
               accidentDetected={detectionData.accidentDetected}
               trafficLevel={detectionData.trafficLevel}
+              mapEvents={mapEvents}
             />
           )}
         </motion.div>
