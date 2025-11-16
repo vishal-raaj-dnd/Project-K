@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import * as tmImage from '@teachablemachine/image';
 import { toast } from "sonner";
+import { Upload } from "lucide-react";
 
 interface DetectionResults {
   traffic: number;
@@ -22,8 +23,10 @@ interface VideoAnalysisProps {
 export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [model, setModel] = useState<tmImage.CustomMobileNet | null>(null);
   const [isModelLoaded, setIsModelLoaded] = useState(false);
+  const [videoUrl, setVideoUrl] = useState<string>("");
   const [detections, setDetections] = useState<DetectionResults>({
     traffic: 0,
     ambulance: 0,
@@ -150,6 +153,30 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
     return () => clearInterval(interval);
   }, [model, onDetectionUpdate]);
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('video/')) {
+      toast.error("Please upload a video file");
+      return;
+    }
+
+    const url = URL.createObjectURL(file);
+    setVideoUrl(url);
+    
+    toast.success("Video uploaded successfully!");
+    
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.load();
+        videoRef.current.play().catch(err => {
+          console.log("Autoplay prevented:", err);
+        });
+      }
+    }, 100);
+  };
+
   const handleManualReview = (alert: string) => {
     toast.info("Manual Review Initiated", {
       description: `Reviewing: ${alert}`,
@@ -177,6 +204,22 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
         <Card className="lg:col-span-2 p-6 bg-[#FFE951] border-4 border-black shadow-[8px_8px_0px_#000000]">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-2xl font-black text-black">🎥 Live Traffic Analysis</h3>
+            <div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="video/*"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+              <Button
+                onClick={() => fileInputRef.current?.click()}
+                className="bg-[#00FF80] text-black border-4 border-black hover:bg-green-400 font-black shadow-[4px_4px_0px_#000000] cursor-pointer"
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Upload Your Video
+              </Button>
+            </div>
           </div>
           <div className="relative bg-black border-4 border-black rounded-none overflow-hidden">
             <video
@@ -187,6 +230,7 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               muted
               playsInline
               crossOrigin="anonymous"
+              src={videoUrl || undefined}
               onError={(e) => console.error("Video load error:", e)}
               onLoadedData={() => {
                 if (videoRef.current) {
@@ -196,9 +240,13 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
                 }
               }}
             >
-              <source src="https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4" />
-              <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
-              <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+              {!videoUrl && (
+                <>
+                  <source src="https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4" />
+                  <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
+                  <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+                </>
+              )}
               Your browser does not support the video tag.
             </video>
             <canvas ref={canvasRef} className="hidden" />
