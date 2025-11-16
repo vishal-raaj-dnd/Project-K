@@ -250,12 +250,7 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               }}
             >
               {!videoUrl && (
-                <>
-                  <source src="https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1" type="video/mp4" />
-                  <source src="https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4" />
-                  <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
-                  <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
-                </>
+                <source src="https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1" type="video/mp4" />
               )}
               Your browser does not support the video tag.
             </video>
