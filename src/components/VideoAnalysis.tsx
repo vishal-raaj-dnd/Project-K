@@ -33,7 +33,6 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
   });
   const [inferenceTime, setInferenceTime] = useState(0);
   const [alerts, setAlerts] = useState<string[]>([]);
-  const [useWebcam, setUseWebcam] = useState(false);
 
   useEffect(() => {
     const loadModel = async () => {
@@ -51,21 +50,6 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
 
     loadModel();
   }, []);
-
-  useEffect(() => {
-    if (useWebcam && videoRef.current) {
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-          }
-        })
-        .catch(err => {
-          console.error("Error accessing webcam:", err);
-          setUseWebcam(false);
-        });
-    }
-  }, [useWebcam]);
 
   useEffect(() => {
     if (!model || !videoRef.current || !canvasRef.current) return;
@@ -190,14 +174,6 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
             </div>
             <div className="absolute bottom-4 left-4 bg-[#FF0080] border-3 border-black px-3 py-1 font-black text-white">
               {isModelLoaded ? "✅ ANALYZING..." : "⏳ LOADING MODEL..."}
-            </div>
-            <div className="absolute bottom-4 right-4">
-              <Button
-                onClick={() => setUseWebcam(!useWebcam)}
-                className="bg-[#0080FF] text-white border-3 border-black hover:bg-blue-600 font-black"
-              >
-                {useWebcam ? "📹 Use Demo" : "📷 Use Webcam"}
-              </Button>
             </div>
           </div>
         </Card>
