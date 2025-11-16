@@ -164,8 +164,8 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               muted
               playsInline
               crossOrigin="anonymous"
+              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
             >
-              <source src="https://www.youtube.com/watch?v=kVr8RSemew8" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             <canvas ref={canvasRef} className="hidden" />
