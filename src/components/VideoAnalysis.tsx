@@ -164,8 +164,10 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               muted
               playsInline
               crossOrigin="anonymous"
-              src="https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1"
+              onError={(e) => console.error("Video load error:", e)}
             >
+              <source src="https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1" type="video/mp4" />
+              <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             <canvas ref={canvasRef} className="hidden" />
