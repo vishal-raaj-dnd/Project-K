@@ -40,38 +40,38 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
   const [routes, setRoutes] = useState<any[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const markers = useRef<Map<string, mapboxgl.Marker>>(new Map());
+  const map = useRef<L.Map | null>(null);
+  const markers = useRef<Map<string, L.Marker>>(new Map());
   const [mapLoaded, setMapLoaded] = useState(false);
 
-  // Initialize Mapbox
+  // Initialize Leaflet
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [77.1025, 28.7041], // Delhi, India
-      zoom: 11,
-    });
+    const leaflet = require('leaflet');
+    
+    map.current = leaflet.map(mapContainer.current).setView([28.7041, 77.1025], 11);
 
-    map.current.on('load', () => {
-      setMapLoaded(true);
-    });
+    leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19,
+    }).addTo(map.current);
 
-    // Add navigation controls
-    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+    setMapLoaded(true);
 
     return () => {
       markers.current.forEach(marker => marker.remove());
       markers.current.clear();
       map.current?.remove();
+      map.current = null;
     };
   }, []);
 
   // Update markers when mapEvents change
   useEffect(() => {
     if (!map.current || !mapLoaded) return;
+
+    const leaflet = require('leaflet');
 
     // Create a map of unique locations (by lat/lng rounded to 4 decimals)
     const uniqueEvents = new Map<string, typeof mapEvents[0]>();
@@ -95,33 +95,35 @@ export default function RouteAssistant({ accidentDetected, trafficLevel, mapEven
     // Add new markers
     uniqueEvents.forEach((event, key) => {
       if (!markers.current.has(key)) {
-        const el = document.createElement('div');
-        el.className = 'custom-marker';
-        el.style.backgroundColor = event.color;
-        el.style.width = '30px';
-        el.style.height = '30px';
-        el.style.borderRadius = '50%';
-        el.style.border = '3px solid #000';
-        el.style.cursor = 'pointer';
-        el.style.display = 'flex';
-        el.style.alignItems = 'center';
-        el.style.justifyContent = 'center';
-        el.style.fontWeight = 'bold';
-        el.style.fontSize = '16px';
-        el.textContent = event.type.charAt(0);
+        const customIcon = leaflet.divIcon({
+          className: 'custom-marker',
+          html: `<div style="
+            background-color: ${event.color};
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 3px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: #000;
+          ">${event.type.charAt(0)}</div>`,
+          iconSize: [30, 30],
+          iconAnchor: [15, 15],
+        });
 
-        const popup = new mapboxgl.Popup({ offset: 25 })
-          .setHTML(`
-            <div style="font-family: sans-serif; padding: 8px;">
-              <strong>${event.type}</strong><br/>
-              Confidence: ${event.confidence}%<br/>
-              Time: ${new Date(event.timestamp).toLocaleTimeString()}
-            </div>
-          `);
+        const popupContent = `
+          <div style="font-family: sans-serif; padding: 8px;">
+            <strong>${event.type}</strong><br/>
+            Confidence: ${event.confidence}%<br/>
+            Time: ${new Date(event.timestamp).toLocaleTimeString()}
+          </div>
+        `;
 
-        const marker = new mapboxgl.Marker(el)
-          .setLngLat([event.lng, event.lat])
-          .setPopup(popup)
+        const marker = leaflet.marker([event.lat, event.lng], { icon: customIcon })
+          .bindPopup(popupContent)
           .addTo(map.current!);
 
         markers.current.set(key, marker);
