@@ -155,7 +155,7 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               playsInline
               crossOrigin="anonymous"
             >
-              <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+              <source src="https://www.youtube.com/watch?v=kVr8RSemew8" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             <canvas ref={canvasRef} className="hidden" />
