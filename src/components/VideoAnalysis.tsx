@@ -43,8 +43,8 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
   useEffect(() => {
     const loadModel = async () => {
       try {
-        const modelURL = "https://teachablemachine.withgoogle.com/models/KINDW01t3/model.json";
-        const metadataURL = "https://teachablemachine.withgoogle.com/models/KINDW01t3/metadata.json";
+        const modelURL = "https://teachablemachine.withgoogle.com/models/iGwlA0SUe/model.json";
+        const metadataURL = "https://teachablemachine.withgoogle.com/models/iGwlA0SUe/metadata.json";
         
         const loadedModel = await tmImage.load(modelURL, metadataURL);
         setModel(loadedModel);
