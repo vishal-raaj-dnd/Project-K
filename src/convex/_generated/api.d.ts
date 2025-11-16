@@ -19,6 +19,7 @@ import type * as detections from "../detections.js";
 import type * as http from "../http.js";
 import type * as routes from "../routes.js";
 import type * as users from "../users.js";
+import type * as videoStorage from "../videoStorage.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -35,6 +36,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   routes: typeof routes;
   users: typeof users;
+  videoStorage: typeof videoStorage;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
