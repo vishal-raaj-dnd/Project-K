@@ -35,7 +35,7 @@ export default function Landing() {
       {/* Hero Section with 3D */}
       <section className="relative h-screen overflow-hidden border-b-4 border-black">
         <iframe
-          src="https://my.spline.design/boxeshover-V9eR0m51oYOiA3Zejk9o5z4C/"
+          src="https://prod.spline.design/GXOyqZdSxxoCriBA/scene.splinecode"
           className="absolute inset-0 w-full h-full"
           frameBorder="0"
         />
