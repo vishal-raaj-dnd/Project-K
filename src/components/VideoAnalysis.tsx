@@ -219,7 +219,7 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
                   Upload Your Video
                 </Button>
                 <a
-                  href="https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1"
+                  href="https://drive.google.com/uc?export=download&id=18QpiCSsN_aEgGj8Pesf-zN3GICQcU_G-"
                   download
                   className="inline-block"
                 >
@@ -252,7 +252,7 @@ export default function VideoAnalysis({ onDetectionUpdate }: VideoAnalysisProps)
               }}
             >
               {!videoUrl && (
-                <source src="https://drive.google.com/uc?export=download&id=1wWjZR9arSHFfEGt-tABjkKxa2apwr0E1" type="video/mp4" />
+                <source src="https://drive.google.com/uc?export=download&id=18QpiCSsN_aEgGj8Pesf-zN3GICQcU_G-" type="video/mp4" />
               )}
               Your browser does not support the video tag.
             </video>
