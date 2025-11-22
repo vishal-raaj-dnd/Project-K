@@ -54,7 +54,7 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 py-24">
+      <section className="max-w-7xl mx-auto px-4 py-12 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <motion.div
@@ -66,15 +66,18 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
+              className="text-5xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight tracking-tight"
             >
-              AI Traffic Intelligence
+              AI Traffic <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                Intelligence
+              </span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg text-gray-600 mb-8"
+              className="text-lg text-gray-600 mb-8 max-w-lg"
             >
               Real-time detection of accidents, congestion, potholes, and flooding. Save lives with intelligent routing.
             </motion.p>
@@ -86,19 +89,19 @@ export default function Landing() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="grid grid-cols-2 gap-4 mb-8"
             >
-              <div className="bg-gray-50 border border-gray-200 p-4 rounded-lg">
+              <div className="bg-gray-50 border border-gray-200 p-4 rounded-xl hover:bg-gray-100 transition-colors">
                 <div className="font-bold text-2xl text-gray-900">1.7L+</div>
                 <div className="text-sm text-gray-600">Lives Lost Annually</div>
               </div>
-              <div className="bg-gray-50 border border-gray-200 p-4 rounded-lg">
+              <div className="bg-gray-50 border border-gray-200 p-4 rounded-xl hover:bg-gray-100 transition-colors">
                 <div className="font-bold text-2xl text-gray-900">2 sec</div>
                 <div className="text-sm text-gray-600">Detection Time</div>
               </div>
-              <div className="bg-gray-50 border border-gray-200 p-4 rounded-lg">
+              <div className="bg-gray-50 border border-gray-200 p-4 rounded-xl hover:bg-gray-100 transition-colors">
                 <div className="font-bold text-2xl text-gray-900">13L+</div>
                 <div className="text-sm text-gray-600">Cameras Connected</div>
               </div>
-              <div className="bg-gray-50 border border-gray-200 p-4 rounded-lg">
+              <div className="bg-gray-50 border border-gray-200 p-4 rounded-xl hover:bg-gray-100 transition-colors">
                 <div className="font-bold text-2xl text-gray-900">90%</div>
                 <div className="text-sm text-gray-600">Cost Reduction</div>
               </div>
@@ -111,7 +114,7 @@ export default function Landing() {
             >
               <Button
                 onClick={() => handleNavigation(isAuthenticated ? "/dashboard" : "/auth")}
-                className="w-full bg-blue-600 text-white hover:bg-blue-700 font-semibold py-6 text-lg rounded-lg cursor-pointer"
+                className="w-full sm:w-auto bg-blue-600 text-white hover:bg-blue-700 font-semibold py-6 px-8 text-lg rounded-xl cursor-pointer shadow-lg hover:shadow-xl transition-all"
               >
                 {isAuthenticated ? "Go to Dashboard" : "Start Now"}
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -119,34 +122,21 @@ export default function Landing() {
             </motion.div>
           </motion.div>
 
-          {/* Right Visual */}
+          {/* Right Visual - Spline 3D */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative h-[500px] w-full rounded-3xl overflow-hidden shadow-2xl border border-gray-200 bg-gray-50"
           >
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 p-8 rounded-2xl">
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { emoji: "🚨", label: "Accidents" },
-                  { emoji: "🚑", label: "Ambulance" },
-                  { emoji: "🌊", label: "Flooding" },
-                  { emoji: "🕳", label: "Potholes" },
-                ].map((item, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 + idx * 0.1 }}
-                    className="bg-white border border-gray-200 p-6 text-center rounded-lg"
-                  >
-                    <div className="text-5xl mb-2">{item.emoji}</div>
-                    <div className="font-semibold text-gray-900">{item.label}</div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+             <iframe 
+                src='https://my.spline.design/prismcoin-HXhJfIRTgX3ToynyKhuiXR3A/' 
+                frameBorder='0' 
+                width='100%' 
+                height='100%'
+                className="w-full h-full"
+                title="3D Prism Coin"
+              ></iframe>
           </motion.div>
         </div>
       </section>
@@ -156,7 +146,8 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="text-4xl font-bold text-gray-900 mb-12 text-center"
           >
@@ -169,11 +160,14 @@ export default function Landing() {
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.1 * idx }}
-                  className="bg-white border border-gray-200 p-6 rounded-lg hover:shadow-md transition-shadow"
+                  className="bg-white border border-gray-200 p-6 rounded-xl hover:shadow-lg transition-all hover:-translate-y-1"
                 >
-                  <Icon className="w-12 h-12 text-blue-600 mb-4" />
+                  <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
+                    <Icon className="w-6 h-6 text-blue-600" />
+                  </div>
                   <h3 className="font-bold text-lg text-gray-900 mb-2">{feature.label}</h3>
                   <p className="text-sm text-gray-600">{feature.desc}</p>
                 </motion.div>
@@ -188,7 +182,8 @@ export default function Landing() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="text-4xl font-bold text-gray-900 mb-6"
           >
@@ -196,7 +191,8 @@ export default function Landing() {
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-lg text-gray-600 mb-8"
           >
@@ -204,12 +200,13 @@ export default function Landing() {
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <Button
               onClick={() => handleNavigation(isAuthenticated ? "/dashboard" : "/auth")}
-              className="bg-blue-600 text-white hover:bg-blue-700 font-semibold py-6 px-12 text-lg rounded-lg cursor-pointer"
+              className="bg-blue-600 text-white hover:bg-blue-700 font-semibold py-6 px-12 text-lg rounded-xl cursor-pointer shadow-lg hover:shadow-xl transition-all"
             >
               Get Started Now
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -223,7 +220,8 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="text-4xl font-bold text-gray-900 mb-12 text-center"
           >
@@ -232,9 +230,10 @@ export default function Landing() {
           
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-white border border-gray-200 p-8 rounded-2xl"
+            className="bg-white border border-gray-200 p-4 lg:p-8 rounded-2xl shadow-lg"
           >
             <video
               className="w-full h-auto rounded-lg"
@@ -255,7 +254,8 @@ export default function Landing() {
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-center mt-8"
           >
@@ -268,7 +268,7 @@ export default function Landing() {
               className="inline-block"
             >
               <Button
-                className="bg-blue-600 text-white hover:bg-blue-700 font-semibold py-6 px-8 text-lg rounded-lg cursor-pointer"
+                className="bg-blue-600 text-white hover:bg-blue-700 font-semibold py-6 px-8 text-lg rounded-xl cursor-pointer shadow-md hover:shadow-lg transition-all"
               >
                 📥 Download Sample Video
               </Button>

@@ -69,16 +69,31 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-blue-100">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Background Spline */}
+      <div className="fixed inset-0 z-[-1]">
+        <iframe 
+          src='https://my.spline.design/motiontrails-Od0YCyth9OhoYVhy5dxutkuD/' 
+          frameBorder='0' 
+          width='100%' 
+          height='100%'
+          className="w-full h-full"
+          title="3D Motion Trails Background"
+        ></iframe>
+      </div>
+      
+      {/* Overlay for readability */}
+      <div className="fixed inset-0 z-[-1] bg-white/10 backdrop-blur-[2px] pointer-events-none"></div>
+
       {/* Navbar */}
-      <nav className="bg-white/40 backdrop-blur-xl border-b border-white/30 p-4 shadow-lg rounded-b-3xl">
+      <nav className="bg-white/60 backdrop-blur-xl border-b border-white/30 p-4 shadow-lg rounded-b-3xl mx-4 mt-2">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <img src="/logo.svg" alt="Project K" className="w-12 h-12 cursor-pointer" onClick={() => navigate("/")} />
             <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">PROJECT K</h1>
           </div>
           <div className="flex items-center gap-4">
-            <span className="font-semibold text-gray-700">{user?.email || "Guest"}</span>
+            <span className="font-semibold text-gray-800 bg-white/50 px-3 py-1 rounded-full border border-white/30">{user?.email || "Guest"}</span>
             <Button
               onClick={handleSignOut}
               className="bg-gradient-to-r from-purple-500 to-blue-500 text-white border-0 hover:from-purple-600 hover:to-blue-600 font-semibold rounded-full shadow-lg"
@@ -91,14 +106,14 @@ export default function Dashboard() {
       </nav>
 
       {/* Tabs */}
-      <div className="bg-white/30 backdrop-blur-lg border-b border-white/30 p-4 rounded-b-2xl">
+      <div className="bg-white/40 backdrop-blur-lg border-b border-white/30 p-4 rounded-b-2xl mx-4 mb-6">
         <div className="max-w-7xl mx-auto flex gap-4">
           <Button
             onClick={() => setActiveTab("detection")}
             className={`font-semibold text-lg rounded-full transition-all ${
               activeTab === "detection"
                 ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg"
-                : "bg-white/50 text-gray-700 hover:bg-white/70 border border-white/50"
+                : "bg-white/50 text-gray-800 hover:bg-white/70 border border-white/50"
             }`}
           >
             🎥 Live Detection
@@ -108,7 +123,7 @@ export default function Dashboard() {
             className={`font-semibold text-lg rounded-full transition-all ${
               activeTab === "routing"
                 ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg"
-                : "bg-white/50 text-gray-700 hover:bg-white/70 border border-white/50"
+                : "bg-white/50 text-gray-800 hover:bg-white/70 border border-white/50"
             }`}
           >
             🗺 Route Assistant
